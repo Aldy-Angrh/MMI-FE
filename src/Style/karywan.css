@@ -1,0 +1,26 @@
+.container-karyawan{
+    padding: 20px 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.content{
+    border: 1px solid #000;
+    width: 100%;
+}
+.table, .table-karyawan{
+    padding: 5px ;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.table-karyawan{
+    padding: 30px 20px !important;
+    
+}
+.addContent{
+    padding: 20px 10px;
+    align-items: center;
+    display: flex;
+    width: '100%';
+    flex-direction: column;
+}
