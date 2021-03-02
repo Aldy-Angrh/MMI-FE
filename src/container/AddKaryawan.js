@@ -3,7 +3,7 @@ import { Alert,Col, Dropdown, Button,Modal, InputGroup, Row } from 'react-bootst
 import { Link } from 'react-router-dom'
 import '../Style/karywan.css'
 
-export default function AddKaryawan() {
+export default function AddKaryawan(props) {
     const [jabatan, setJabatan] = useState("== Pilih Jabatan ==")
     const[nama, setNama]=useState("")
     const[ttl, setTtl]=useState("")
@@ -12,6 +12,12 @@ export default function AddKaryawan() {
     const [k, setk] = useState(false)
     const [ok, setOk] = useState(false)
     const [show, setShow] = useState(false);
+    const [add, setAdd] = useState([{
+        nama:''
+    }])
+    console.log(props);
+
+    
 
   const handleClose = () => setShow(false);
   const handleOke = () => {
@@ -19,6 +25,12 @@ export default function AddKaryawan() {
     setOk(true)
       
     }
+
+    var Adding =[{"nama": nama,
+    "Ttl": ttl,
+    "Jabatan":jabatan,
+    "Nip": nip,
+    "JenisKelamin": jk}]
 
 
 
@@ -119,7 +131,7 @@ export default function AddKaryawan() {
     Ada yang belum terisi
     </Alert>
                 <div flexDirection={Row} style={{ justifyContent:'center', display:'flex'}}>
-                <Link to={''}>
+                <Link to={{pathname:'/', params:{nama:nama,ttl:ttl, jabatan:jabatan,nip:nip,JenisKelamin:jk }}}>
        
                 <Button style={{marginRight:'10%'}} >Kembali</Button>
                 </Link>

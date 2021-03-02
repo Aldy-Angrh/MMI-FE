@@ -4,13 +4,89 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {Modal,  Table, Button, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
-// import {  } from 'bootstrap';
+import ModalAdd from '../component/ModalAdd';
 
-export default function MasterKaryawan() {
+export default function MasterKaryawan(props)  {
+  // console.log(props.location.state);
     const [show, setShow] = useState(false);
+    var [data, setData] = useState([{
+    
+      "nama": "Aldy ANugrah",
+                      "Ttl": "02/10/1997",
+                      "Jabatan": " Developer",
+                      "Nip": "123123123",
+                      "JenisKelamin": "L"
+  },
+  { 
+    "nama": "Mba Septi",
+                      "Ttl": "22/10/1997",
+                      "Jabatan": " Developer",
+                      "Nip": "1231123123",
+                      "JenisKelamin": "P"
+  
+  }]);
+  // var empl = [{
+    
+//     "nama": "Aldy ANugrah",
+//                     "Ttl": "02/10/1997",
+//                     "Jabatan": " Developer", 
+//                     "Nip": "123123123",
+//                     "JenisKelamin": "L"
+// },
+// { 
+//   "nama": "Mba Septi",
+//                     "Ttl": "22/10/1997",
+//                     "Jabatan": " Developer",
+//                     "Nip": "1231123123",
+//                     "JenisKelamin": "P"
+
+// }]
+    const [EditShow, setEditSHow] = useState(false);
+    
+    var c = props.location.params
+    console.log(c);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleRemove = (indes) =>{
+    console.log("ini index",indes);
+     
+    var hasil = data.filter((element, index)=> index != indes )
+    setData(data = hasil)
+      // var test = [];
+      // console.log(test.push(c));
+      // console.log(test);
+      // var b = empl.push(c);
+      // console.log("ini b", b);
+      // console.log("Masuk");
+  //     console.log("ini nama", n);
+  //     // if (element.nama !== n) {
+  //     //   employee = hasil
+  //     //   setShow(false)    
+  //     //   console.log("Berhasil");
+  //     // } else {
+  //     //   console.log("Gagal");
+  //     // }  
+    
+  //   })
+
+    
+  }
+  React.useEffect(()=>{
+    if (c != null) {
+      console.log("msk");
+      data.push(c)
+      console.log(data);
+      setData(data => [...data, c])
+    }
+    // add()
+  },[])
+  // setData(...data, data.concat(props.location.state))
+  // console.log(data);
+
+
+  
+
 
     
     return (
@@ -20,9 +96,12 @@ export default function MasterKaryawan() {
             <text>List Karyawan</text>
            
             <div className='table'>
-                <Link to={'/add'}>
+                <Link to='/add'>
                 <Button>Tambah</Button>
                 </Link>
+                {/* <Button
+                onClick={()=> handleRemove()}
+                >tambah</Button> */}
             <Table striped bordered hover variant="dark" style={{width: '100%'}}>
             <thead>
             <tr>
@@ -36,25 +115,31 @@ export default function MasterKaryawan() {
             </tr>
           </thead>
           <tbody>
-          {Array(10).fill().map((data, index) => {
+          {data.map((data, index) => {
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>Aldy Anugrah</td>
-                  <td>02-10-1997</td>
-                  <td>Programmer</td>
-                  <td>343412343928</td>
+                  <td>{data.nama}</td>
+                  <td>{data.Ttl}</td>
+                  <td>{data.Jabatan}</td>
+                  <td>{data.Nip}</td>
                   <td>
-                    L
+                    {data.JenisKelamin}
                   </td>
                   <td >
                     <Row className="justify-content-md-center">
                       <Button
                         variant="outline-warning"
-                        // onClick={this.props.addEmployee}
+                        onClick={()=> setEditSHow(true)}
                         >
                         <FontAwesomeIcon icon={faEdit} />
                       </Button>
+                      <ModalAdd show={EditShow} onHide={()=> setEditSHow(false)} 
+                      nama={data.nama}
+                        ttl={data.Ttl}
+                        jabatan={data.Jabatan}
+                        nip={data.Nip}
+                        JenisKelamin={data.JenisKelamin} />
                       <Button
                       style={{marginLeft: 5}}
                         variant="outline-danger"
@@ -72,7 +157,7 @@ export default function MasterKaryawan() {
           <Button variant="secondary" onClick={handleClose}>
             No
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={() => {handleRemove(index)}}>
             Yes
           </Button>
         </Modal.Footer>
