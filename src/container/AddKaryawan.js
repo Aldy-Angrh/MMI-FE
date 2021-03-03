@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import '../Style/karywan.css'
 
 export default function AddKaryawan(props) {
+    const {data, handleSubmit, karyawan} = props
     const [jabatan, setJabatan] = useState("== Pilih Jabatan ==")
     const[nama, setNama]=useState("")
     const[ttl, setTtl]=useState("")
@@ -12,17 +13,31 @@ export default function AddKaryawan(props) {
     const [k, setk] = useState(false)
     const [ok, setOk] = useState(false)
     const [show, setShow] = useState(false);
-    const [add, setAdd] = useState([{
-        nama:''
-    }])
+
     console.log(props);
 
-    
+   
 
   const handleClose = () => setShow(false);
   const handleOke = () => {
+      let newId = 0  
+    data.map((e)=>{
+        console.log(data.length);
+        newId = data.length+1
+    })
+
+      var add ={ id:newId,
+                nama:nama,
+                 Ttl: ttl,
+                 Jabatan: jabatan,
+                 Nip : nip,
+                 JenisKelamin: jk            
+    }
     setShow(false)  
     setOk(true)
+    handleSubmit(add)
+console.log(add);
+    
       
     }
 
@@ -61,12 +76,18 @@ export default function AddKaryawan(props) {
     </Alert>
                 
                 <Row >
+                {/* <input style={{width:'50%', marginRight:'60px'}}
+                    onChange={(e)=>setNama(e.target.value)}
+                    value={nama}
+                    placeholder={karyawan.id}
+                    ></input> */}
                     <Col >
                     <text> nama </text>
                     </Col>
                     <input style={{width:'50%', marginRight:'60px'}}
                     onChange={(e)=>setNama(e.target.value)}
                     value={nama}
+                    // placeholder={karyawan.nama}
                     ></input>
                 </Row>
                 <Row>
@@ -76,6 +97,7 @@ export default function AddKaryawan(props) {
                     </Col>
                     <input style={{width:'50%', marginRight:'60px'}}
                     onChange={(e)=>setTtl(e.target.value)}
+                    // placeholder={karyawan.Ttl}
                      value={ttl}
                     ></input>
                 </Row>
@@ -83,7 +105,9 @@ export default function AddKaryawan(props) {
                     <Col >
                       <text>Jabatan</text>
                     </Col>
-                    <input style={{width:'50%'}} onChange={jabatan} type="text" id="exampleFormControlInput1" value={jabatan} />
+                    <input style={{width:'50%'}} onChange={jabatan} type="text" id="exampleFormControlInput1" value={jabatan}
+                    // placeholder={karyawan.Jabatan} 
+                    />
                     <Dropdown>
   <Dropdown.Toggle variant="success" id="dropdown-basic">
   </Dropdown.Toggle>
@@ -104,6 +128,7 @@ export default function AddKaryawan(props) {
                     <input  style={{width:'50%', marginRight:'60px'}}
                      onChange={(e)=>setNip(e.target.value)}
                      value={nip}
+                    //  placeholder={karyawan.Nip}
                     ></input>
                 </Row>
                 <Row>
@@ -131,8 +156,7 @@ export default function AddKaryawan(props) {
     Ada yang belum terisi
     </Alert>
                 <div flexDirection={Row} style={{ justifyContent:'center', display:'flex'}}>
-                <Link to={{pathname:'/', params:{nama:nama,ttl:ttl, jabatan:jabatan,nip:nip,JenisKelamin:jk }}}>
-       
+                <Link to='/'>
                 <Button style={{marginRight:'10%'}} >Kembali</Button>
                 </Link>
                 <Button onClick={()=> onSave()}>Simpan</Button>
@@ -145,9 +169,11 @@ export default function AddKaryawan(props) {
           <Button variant="secondary" onClick={handleClose}>
             No
           </Button>
+                <Link to={{pathname:'/', params:{nama:nama,ttl:ttl, jabatan:jabatan,nip:nip,JenisKelamin:jk }}}>
           <Button variant="primary" onClick={handleOke}>
             Yes
           </Button>
+                </Link>
         </Modal.Footer>
       </Modal>
                 </div>

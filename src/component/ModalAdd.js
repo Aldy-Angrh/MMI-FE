@@ -1,6 +1,29 @@
+import { useState } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 
 export default function ModalAdd(props) {
+  const {handleUpdate} = props
+    const [jabatan, setJabatan] = useState("== Pilih Jabatan ==")
+    const[nama, setNama]=useState("")
+    const[ttl, setTtl]=useState("")
+    const [nip,setNip]=useState("")
+    const [jk, setJK]=useState("")
+
+    const update = () => {
+      // setId(props.id)
+      console.log("MASUK DI UPDATE");
+      var hasil ={  
+        id:props.id,
+        nama:nama,
+         Ttl: ttl,
+         Jabatan: jabatan,
+         Nip : nip,
+         JenisKelamin: jk            
+}
+  handleUpdate(hasil)
+  props.onHide()
+    }
+
     return (
       <Modal  {...props} aria-labelledby="contained-modal-title-vcenter">
         <Modal.Header closeButton>
@@ -17,6 +40,7 @@ export default function ModalAdd(props) {
               <Col xs={6} md={4}>
                 <input
                 placeholder={props.nama}
+                onChange={(e)=>setNama(e.target.value)}
                 ></input>
               </Col>
             </Row>
@@ -25,7 +49,9 @@ export default function ModalAdd(props) {
                 <text>Tanggal Lahir</text>
               </Col>
               <Col xs={6} md={4}>
-                <input placeholder={props.ttl}></input>
+                <input placeholder={props.ttl}
+                onChange={(e)=>setTtl(e.target.value)}
+                ></input>
               </Col>
             </Row>
             <Row>
@@ -33,7 +59,8 @@ export default function ModalAdd(props) {
                 <text>Jabatan</text>
               </Col>
               <Col xs={6} md={4}>
-                <input placeholder={props.jabatan}></input>
+                <input placeholder={props.jabatan}
+                onChange={(e)=>setJabatan(e.target.value)}></input>
               </Col>
             </Row>
             <Row>
@@ -41,7 +68,9 @@ export default function ModalAdd(props) {
                 <text>NIP</text>
               </Col>
               <Col xs={6} md={4}>
-                <input placeholder={props.nip}></input>
+                <input placeholder={props.nip}
+                 onChange={(e)=>setNip(e.target.value)}
+                ></input>
               </Col>
             </Row>
             <Row>
@@ -49,7 +78,9 @@ export default function ModalAdd(props) {
                 <text>Jenis Kelamin</text>
               </Col>
               <Col xs={6} md={4}>
-                <input placeholder={props.JenisKelamin}></input>
+                <input placeholder={props.JenisKelamin}
+                 onChange={(e)=>setJK(e.target.value)}
+                ></input>
               </Col>
             </Row>
   
@@ -57,8 +88,7 @@ export default function ModalAdd(props) {
           </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide}>Save</Button>
-
+          <Button onClick={() => {update()}}>Save</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
