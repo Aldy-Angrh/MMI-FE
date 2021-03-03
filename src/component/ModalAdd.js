@@ -43,7 +43,7 @@ export default function ModalAdd(props) {
               <Col xs={6} md={4}>
                 <input
                 onChange={(e)=>setNama(e.target.value)}
-                value={props.nama}
+                value={nama}
                 ></input>
               </Col>
             </Row>
