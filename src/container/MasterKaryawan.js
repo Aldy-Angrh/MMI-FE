@@ -8,90 +8,21 @@ import ModalAdd from "../component/ModalAdd";
 
 export default function MasterKaryawan(props) {
   const { data, setId, handleDelete } = props;
-  // console.log(props.location.state);
   const [show, setShow] = useState(false);
-  //   var [data, setData] = useState([{
-
-  //     "nama": "Aldy ANugrah",
-  //                     "Ttl": "02/10/1997",
-  //                     "Jabatan": " Developer",
-  //                     "Nip": "123123123",
-  //                     "JenisKelamin": "L"
-  // },
-  // {
-  //   "nama": "Mba Septi",
-  //                     "Ttl": "22/10/1997",
-  //                     "Jabatan": " Developer",
-  //                     "Nip": "1231123123",
-  //                     "JenisKelamin": "P"
-
-  // }]);
-  // var empl = [{
-
-  //     "nama": "Aldy ANugrah",
-  //                     "Ttl": "02/10/1997",
-  //                     "Jabatan": " Developer",
-  //                     "Nip": "123123123",
-  //                     "JenisKelamin": "L"
-  // },
-  // {
-  //   "nama": "Mba Septi",
-  //                     "Ttl": "22/10/1997",
-  //                     "Jabatan": " Developer",
-  //                     "Nip": "1231123123",
-  //                     "JenisKelamin": "P"
-
-  // }]
+ 
   const [EditShow, setEditSHow] = useState(false);
-
-  // var c = props.location.params
-  // console.log(c);
+  const [selectedIdForDelete, setSelectedIDForDelete] = useState('') 
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleRemove = (id) => {
     setId(id);
-    console.log("INI DI MASTER IDNYA PAS DELETE", id);
     handleDelete(id);
     setShow(false);
-    // setId(indes)
-    // console.log("ini index",indes);
-
-    // var hasil = data.filter((element, index)=> index !== indes )
-    // setData(data = hasil)
-    // var test = [];
-    // console.log(test.push(c));
-    // console.log(test);
-    // var b = empl.push(c);
-    // console.log("ini b", b);
-    // console.log("Masuk");
-    //     console.log("ini nama", n);
-    //     // if (element.nama !== n) {
-    //     //   employee = hasil
-    //     //   setShow(false)
-    //     //   console.log("Berhasil");
-    //     // } else {
-    //     //   console.log("Gagal");
-    //     // }
-
-    //   })
   };
   const handleUpdate = (val) => {
     props.handleUpdate(val);
-    console.log(val.id);
-    console.log(val);
   };
-  // React.useEffect(()=>{
-  //   if (c != null) {
-  //     console.log("msk");
-  //     data.push(c)
-  //     console.log(data);
-  // setData(data => [...data, c])
-  // }
-  // add()
-  // },[])
-  // setData(...data, data.concat(props.location.state))
-  // console.log(data);
 
   return (
     <div className="container-karyawan">
@@ -105,9 +36,6 @@ export default function MasterKaryawan(props) {
           <Link to="/add">
             <Button>Tambah</Button>
           </Link>
-          {/* <Button
-                onClick={()=> handleRemove()}
-                >tambah</Button> */}
           <Table
             striped
             bordered
@@ -127,43 +55,45 @@ export default function MasterKaryawan(props) {
               </tr>
             </thead>
             <tbody>
-              {data.map((data, index) => {
+              {data.map((empl, index) => {
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{data.nama}</td>
-                    <td>{data.Ttl}</td>
-                    <td>{data.Jabatan}</td>
-                    <td>{data.id}</td>
-                    <td>{data.JenisKelamin}</td>
+                    <td>{empl.nama}</td>
+                    <td>{empl.Ttl}</td>
+                    <td>{empl.Jabatan}</td>
+                    <td>{empl.Nip}</td>
+                    <td>{empl.JenisKelamin}</td>
                     <td>
                       <Row className="justify-content-md-center">
                         <Button
                           variant="outline-warning"
-                          onClick={() => setEditSHow(true)}
+                          onClick={() => {
+                            setSelectedIDForDelete(empl.id)
+                            setEditSHow(true)}}
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </Button>
                         <ModalAdd
                           show={EditShow}
                           onHide={() => setEditSHow(false)}
-                          id={data.id}
-                          nama={data.nama}
-                          ttl={data.Ttl}
-                          jabatan={data.Jabatan}
-                          nip={data.Nip}
-                          JenisKelamin={data.JenisKelamin}
+                          id={selectedIdForDelete}
+                          nama={empl.nama}
+                          ttl={empl.Ttl}
+                          jabatan={empl.Jabatan}
+                          nip={empl.Nip}
+                          JenisKelamin={empl.JenisKelamin}
                           handleUpdate={handleUpdate}
                         />
-                        {/* <Link to='/add'>
-                        <Button onClick={()=> setId(data.id)}></Button>
-                        </Link> */}
                         <Button
                           style={{ marginLeft: 5 }}
                           variant="outline-danger"
                           data-toggle="modal"
                           data-target="#exampleModal"
-                          onClick={handleShow}
+                          onClick={()=>{
+                            setSelectedIDForDelete(empl.id);
+                            handleShow();
+                          }}
                         >
                           <FontAwesomeIcon icon={faTrash} />
                         </Button>
@@ -172,17 +102,17 @@ export default function MasterKaryawan(props) {
                             <Modal.Title>Konfirmasi</Modal.Title>
                           </Modal.Header>
                           <Modal.Body>
-                            Apakah Anda akan menghapus data id {data.id} ini ?
+                            Apakah Anda akan menghapus data id {selectedIdForDelete} ini ?
                           </Modal.Body>
                           <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
                               No
                             </Button>
-                            <Link key={data.id} to={"/"}>
+                            <Link key={empl.id} to={"/"}>
                               <Button
                                 variant="primary"
                                 onClick={() => {
-                                  handleRemove(data.id);
+                                  handleRemove(selectedIdForDelete);
                                 }}
                               >
                                 Yes

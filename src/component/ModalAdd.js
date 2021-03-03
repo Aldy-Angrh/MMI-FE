@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Modal, Row } from "react-bootstrap";
 
 export default function ModalAdd(props) {
   const {handleUpdate} = props
-    const [jabatan, setJabatan] = useState("== Pilih Jabatan ==")
+    const [jabatan, setJabatan] = useState("")
     const[nama, setNama]=useState("")
     const[ttl, setTtl]=useState("")
     const [nip,setNip]=useState("")
     const [jk, setJK]=useState("")
 
+    const onClickJabatan = (pos) => {
+      setJabatan(pos);
+    };
     const update = () => {
       // setId(props.id)
       console.log("MASUK DI UPDATE");
@@ -39,8 +42,8 @@ export default function ModalAdd(props) {
               </Col>
               <Col xs={6} md={4}>
                 <input
-                placeholder={props.nama}
                 onChange={(e)=>setNama(e.target.value)}
+                value={props.nama}
                 ></input>
               </Col>
             </Row>
@@ -49,8 +52,9 @@ export default function ModalAdd(props) {
                 <text>Tanggal Lahir</text>
               </Col>
               <Col xs={6} md={4}>
-                <input placeholder={props.ttl}
+                <input 
                 onChange={(e)=>setTtl(e.target.value)}
+                value={ttl}
                 ></input>
               </Col>
             </Row>
@@ -58,9 +62,34 @@ export default function ModalAdd(props) {
               <Col xs={12} md={4}>
                 <text>Jabatan</text>
               </Col>
-              <Col xs={6} md={4}>
-                <input placeholder={props.jabatan}
-                onChange={(e)=>setJabatan(e.target.value)}></input>
+              <Col xs={5} md={4}>
+                <input 
+                onChange={(e)=>setJabatan(e.target.value)}
+                value={jabatan}></input>
+                <Dropdown style={{marginLeft:'0px'}}>
+              <Dropdown.Toggle
+                variant="success"
+                id="dropdown-basic"
+              ></Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => onClickJabatan("BPS")}>
+                  BPS
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => onClickJabatan("Tester")}>
+                  Tester
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => onClickJabatan("Programmer")}>
+                  Programmer
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => onClickJabatan("Helpdesk")}>
+                  Helpdesk
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => onClickJabatan("System Analyst")}>
+                  System Analyst
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
               </Col>
             </Row>
             <Row>
@@ -68,8 +97,9 @@ export default function ModalAdd(props) {
                 <text>NIP</text>
               </Col>
               <Col xs={6} md={4}>
-                <input placeholder={props.nip}
+                <input
                  onChange={(e)=>setNip(e.target.value)}
+                 value={nip}
                 ></input>
               </Col>
             </Row>
@@ -78,8 +108,9 @@ export default function ModalAdd(props) {
                 <text>Jenis Kelamin</text>
               </Col>
               <Col xs={6} md={4}>
-                <input placeholder={props.JenisKelamin}
+                <input
                  onChange={(e)=>setJK(e.target.value)}
+                 value={jk}
                 ></input>
               </Col>
             </Row>
